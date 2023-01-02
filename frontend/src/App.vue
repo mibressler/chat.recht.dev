@@ -24,31 +24,20 @@
     <v-footer
       app
       color="transparent"
-      height="72"
+      height="120"
       inset
     >
     <div class="center" style="width:600px;">
-      <v-text-field
-        background-color="grey lighten-1"
-        dense
-        flat
-        hide-details
-        rounded
-        solo
-      ></v-text-field>
         <v-form>
     <v-container>
       <v-row>
         <v-col cols="12">
           <v-text-field
             v-model="message"
-            :append-icon="marker ? 'mdi-map-marker' : 'mdi-map-marker-off'"
-            :append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
-            :prepend-icon="icon"
+            :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
             filled
             clear-icon="mdi-close-circle"
             clearable
-            label="Message"
             type="text"
             @click:append="toggleMarker"
             @click:append-outer="sendMessage"
@@ -66,7 +55,49 @@
 
 <script>
   export default {
-    data: () => ({ drawer: null }),
+    data: () => ({
+      password: 'Password',
+      show: false,
+      marker: true,
+      iconIndex: 0,
+      icons: [
+        'mdi-emoticon',
+        'mdi-emoticon-cool',
+        'mdi-emoticon-dead',
+        'mdi-emoticon-excited',
+        'mdi-emoticon-happy',
+        'mdi-emoticon-neutral',
+        'mdi-emoticon-sad',
+        'mdi-emoticon-tongue',
+      ],
+    }),
+
+    computed: {
+      icon () {
+        return this.icons[this.iconIndex]
+      },
+    },
+
+    methods: {
+      toggleMarker () {
+        this.marker = !this.marker
+      },
+      sendMessage () {
+        this.resetIcon()
+        this.clearMessage()
+      },
+      clearMessage () {
+        this.message = ''
+      },
+      resetIcon () {
+        this.iconIndex = 0
+      },
+      changeIcon () {
+        this.iconIndex === this.icons.length - 1
+          ? this.iconIndex = 0
+          : this.iconIndex++
+      },
+    },
   }
 </script>
 
