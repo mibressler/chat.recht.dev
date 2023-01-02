@@ -27,7 +27,7 @@
       height="220"
       inset
     >
-    <div class="center" style="width:800px;">
+    <div class="center" style="width:700px;">
         <v-form>
     <v-container>
       <v-row>
@@ -35,6 +35,7 @@
 <v-combobox
           v-model="select"
           :items="items"
+          label="Auswählen"
         ></v-combobox>
           <v-text-field
             v-model="message"
@@ -74,10 +75,10 @@
         'mdi-emoticon-sad',
         'mdi-emoticon-tongue',
       ],
-      select: ['Verwandte Urteile'],
+      select: ['Verwandte Urteile finden'],
         items: [
-          'Verwandte Urteile',
-          'Fallbearbeitung',
+          'Verwandte Urteile finden',
+          'Fallbearbeitung für diesen Fall',
         ],
     }),
 
