@@ -11,7 +11,6 @@
       height="72"
     >
       <v-spacer></v-spacer>
-      <p>test</p>
 
 
     </v-app-bar>
@@ -28,7 +27,7 @@
       height="72"
       inset
     >
-    <div max-width="300" class="center">
+    <div class="center" style="width:600px;">
       <v-text-field
         background-color="grey lighten-1"
         dense
@@ -51,6 +50,5 @@
 <style scoped>
 .center {
   margin: auto;
-  width: 50%;
 }
 </style>
