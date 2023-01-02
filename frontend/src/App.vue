@@ -27,7 +27,7 @@
       height="220"
       inset
     >
-    <div class="center" style="width:600px;">
+    <div class="center" style="width:800px;">
         <v-form>
     <v-container>
       <v-row>
@@ -35,7 +35,6 @@
 <v-combobox
           v-model="select"
           :items="items"
-          label="Funktionalität"
         ></v-combobox>
           <v-text-field
             v-model="message"
