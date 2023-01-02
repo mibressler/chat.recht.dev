@@ -36,6 +36,29 @@
         rounded
         solo
       ></v-text-field>
+        <v-form>
+    <v-container>
+      <v-row>
+        <v-col cols="12">
+          <v-text-field
+            v-model="message"
+            :append-icon="marker ? 'mdi-map-marker' : 'mdi-map-marker-off'"
+            :append-outer-icon="message ? 'mdi-send' : 'mdi-microphone'"
+            :prepend-icon="icon"
+            filled
+            clear-icon="mdi-close-circle"
+            clearable
+            label="Message"
+            type="text"
+            @click:append="toggleMarker"
+            @click:append-outer="sendMessage"
+            @click:prepend="changeIcon"
+            @click:clear="clearMessage"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-form>
     </div>
     </v-footer>
   </v-app>
