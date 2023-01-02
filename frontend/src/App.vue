@@ -24,7 +24,7 @@
     <v-footer
       app
       color="transparent"
-      height="120"
+      height="220"
       inset
     >
     <div class="center" style="width:600px;">
@@ -32,6 +32,11 @@
     <v-container>
       <v-row>
         <v-col cols="12">
+<v-combobox
+          v-model="select"
+          :items="items"
+          label="Funktionalität"
+        ></v-combobox>
           <v-text-field
             v-model="message"
             :append-outer-icon="message ? 'mdi-send' : 'mdi-send'"
@@ -70,6 +75,11 @@
         'mdi-emoticon-sad',
         'mdi-emoticon-tongue',
       ],
+      select: ['Verwandte Urteile'],
+        items: [
+          'Verwandte Urteile',
+          'Fallbearbeitung',
+        ],
     }),
 
     computed: {
