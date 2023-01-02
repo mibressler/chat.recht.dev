@@ -1,1 +1,3 @@
 openai
+pinecone-client
+
