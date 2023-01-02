@@ -5,6 +5,8 @@ import json
 with open('.apikey', 'r') as f:
     pinecone.init(api_key=f.readlines()[1].strip())
 
+# TODO Batch uploads to speed up this process
+
 index = pinecone.Index('2019-02-19-oldp-cases')
 for filename in os.listdir('output'):
     f = os.path.join('output', filename)

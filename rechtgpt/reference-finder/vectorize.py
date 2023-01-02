@@ -19,7 +19,7 @@ with open('too_many_tokens.csv', 'r') as f:
 with open('2019-02-19_oldp_cases.json', 'r') as f, open('too_many_tokens.csv', 'a') as tmt_lst:
     for i, line in enumerate(f.readlines()):
         # Do the first X entries from the JSON
-        if i == 100:
+        if i == 1000:
             print("Done!")
             exit(0)
         print(f"Embedding {i}, ", end='')
@@ -35,14 +35,12 @@ with open('2019-02-19_oldp_cases.json', 'r') as f, open('too_many_tokens.csv', '
             continue
         with_tags = html.unescape(data['content'])
         with_whitespace = re.sub('<[^<]+?>', ' ', with_tags)
-        text = re.sub("\s\s+" , " ", with_whitespace)
+        text = re.sub("\s\s+", " ", with_whitespace)
         try:
             embedding = openai.Embedding.create(input = text, model="text-embedding-ada-002")
-            sleep(1)
             with open(filename, 'w') as out:
                 json.dump(embedding, out)
         except openai.error.InvalidRequestError as e:
-            sleep(1)
             tmt_lst.write(f"{case_id}\n")
             print(e)
             print("Continuing")
