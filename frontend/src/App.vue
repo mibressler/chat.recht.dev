@@ -11,7 +11,45 @@
       height="72"
     >
       <v-spacer></v-spacer>
-
+          <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <div class="pr-5">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          icon
+        
+        >
+          <v-icon>mdi-information-outline</v-icon>
+        </v-btn></div>
+      </template>
+      <v-card>
+        <v-toolbar
+          dark
+          color="white"
+          elevation="0"
+        >
+          
+         
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+              <v-btn
+            icon
+            color="grey"
+            @click="dialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+       
+      </v-card>
+    </v-dialog>
 
     </v-app-bar>
 
@@ -116,6 +154,7 @@
 import axios from 'axios'
 export default {
     data: () => ({
+      dialog: false,
       treffer: [],
       message: [],
       password: 'Password',
@@ -179,7 +218,7 @@ export default {
       },
       sendMessage () {
         this.makeRequest()
-        this.clearMessage()
+        
       },
       makeRequest () {
         axios
