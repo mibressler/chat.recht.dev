@@ -73,7 +73,8 @@
   </v-card>
   </div>
 
-      <p>{{ announcements }}</p>
+
+      
     </v-main>
 
     <v-footer
@@ -118,6 +119,7 @@ import axios from 'axios'
 export default {
     data: () => ({
       announcements: [],
+      message: [],
       password: 'Password',
       show: false,
       marker: true,
@@ -132,9 +134,9 @@ export default {
         'mdi-emoticon-sad',
         'mdi-emoticon-tongue',
       ],
-      select: ['Verwandte Urteile finden'],
+      select: ['Urteile suchen'],
         items: [
-          'Verwandte Urteile finden',
+          'Urteile suchen',
           'Fallbearbeitung für diesen Fall',
         ],
          vorlesungen: [
@@ -168,6 +170,9 @@ export default {
       icon () {
         return this.icons[this.iconIndex]
       },
+      prompt () {
+        return this.message
+      },
     },
 
     methods: {
@@ -175,8 +180,20 @@ export default {
         this.marker = !this.marker
       },
       sendMessage () {
-        this.resetIcon()
+        this.makeRequest()
         this.clearMessage()
+      },
+      makeRequest () {
+        axios
+            .get('http://127.0.0.1:8000/reference?prompt='+this.message)
+            .then((response) => {
+                  this.announcements = response.data.data
+                })
+        axios
+            .get('http://localhost:8082/api/inhalte?populate=*'+this.message)
+            .then((response) => {
+                  this.announcements = response.data.data
+                })
       },
       clearMessage () {
         this.message = ''
@@ -192,7 +209,7 @@ export default {
     },
     mounted() {
     axios
-      .get('http://localhost:8082/api/announcements?populate=*&populate=lsuser.avatar')
+      .get('http://localhost:8082/api/inhalte?populate=*')
       .then((response) => {
         this.announcements = response.data.data
       })
