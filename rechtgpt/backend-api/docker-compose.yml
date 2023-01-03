@@ -1,0 +1,9 @@
+version: '2.5'
+services:
+  app:
+    build: .
+    volumes:
+      - "./sql_app.db:/app/sql_app.db"
+    restart: unless-stopped
+    ports:
+      - 80:80
