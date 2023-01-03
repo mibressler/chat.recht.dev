@@ -73,6 +73,7 @@
   </v-card>
   </div>
 
+      <p>{{ announcements }}</p>
     </v-main>
 
     <v-footer
@@ -113,8 +114,10 @@
 </template>
 
 <script>
-  export default {
+import axios from 'axios'
+export default {
     data: () => ({
+      announcements: [],
       password: 'Password',
       show: false,
       marker: true,
@@ -161,7 +164,6 @@
         },
          ]
     }),
-
     computed: {
       icon () {
         return this.icons[this.iconIndex]
@@ -188,7 +190,14 @@
           : this.iconIndex++
       },
     },
+    mounted() {
+    axios
+      .get('http://localhost:8082/api/announcements?populate=*&populate=lsuser.avatar')
+      .then((response) => {
+        this.announcements = response.data.data
+      })
   }
+}
 </script>
 
 <style scoped>
