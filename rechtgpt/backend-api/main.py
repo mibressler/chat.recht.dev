@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from typing import *
 import openai
 import pinecone
@@ -9,6 +9,8 @@ import html
 import re
 import json
 from fastapi.middleware.cors import CORSMiddleware
+
+# TODO AI-generated summaries (plus have them in the DB)
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 
@@ -70,4 +72,15 @@ async def get_reference(prompt: str, db: Session = Depends(get_db)):
     return {
         "prompt": prompt,
         "data": response_data
+    }
+
+@app.get("/ruling")
+async def get_ruling(id: str, db: Session = Depends(get_db)):
+    ruling = models.get_ruling(db, id)
+    if ruling is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {
+        "id": id,
+        "content": ruling.content,
+        "metadata": json.loads(ruling.additional_data)
     }
