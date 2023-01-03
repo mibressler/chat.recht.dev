@@ -73,7 +73,7 @@
   </v-card>
   </div>
 
-
+   
       
     </v-main>
 
@@ -185,7 +185,7 @@ export default {
       },
       makeRequest () {
         axios
-            .get('http://127.0.0.1:8000/reference?prompt='+this.message)
+            .get('http://api.recht.dev/reference?prompt='+this.message)
             .then((response) => {
                   this.announcements = response.data.data
                 })
