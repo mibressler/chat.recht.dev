@@ -19,7 +19,7 @@ with open('too_many_tokens.csv', 'r') as f:
 with open('2019-02-19_oldp_cases.json', 'r') as f, open('too_many_tokens.csv', 'a') as tmt_lst:
     for i, line in enumerate(f.readlines()):
         # Do the first X entries from the JSON
-        if i == 1000:
+        if i == 2000:
             print("Done!")
             exit(0)
         print(f"Embedding {i}, ", end='')
