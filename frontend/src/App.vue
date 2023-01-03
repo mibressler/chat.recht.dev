@@ -94,7 +94,7 @@
       <v-card-text style="font-size:1.2em; font-weight:400;" class="pt-2 pb-1">{{ video.metadata.court.name }}</v-card-text>
     <v-card-subtitle class="pb-2 pt-0">
       <v-tooltip bottom color="success"><template v-slot:activator="{ on, attrs }">
-      <div class="green--text pr-2" style="display: inline-block;"><span v-bind="attrs" v-on="on">{{ video.score }}</span></div></template><span class="text-caption">Geschätzte Übereinstimmung</span></v-tooltip><div style="display: inline-block;"> {{ video.metadata.date }}</div>
+      <div class="green--text pr-2" style="display: inline-block;"><span v-bind="attrs" v-on="on">{{ video.score }}</span></div></template><span class="text-caption">Geschätzte Übereinstimmung</span></v-tooltip><v-btn depressed x-small class="mr-2">{{video.metadata.file_number}}</v-btn><div style="display: inline-block;"> {{ video.metadata.date }}</div>
     </v-card-subtitle>
     <v-card-text class="text--primary">
       <div>{{ video.summary }}</div><div class="mt-2">
@@ -141,6 +141,7 @@
             @click:append-outer="sendMessage"
             @click:prepend="changeIcon"
             @click:clear="clearMessage"
+            @keydown.enter.prevent="sendMessage"
           ></v-text-field>
         </v-col>
       </v-row>
