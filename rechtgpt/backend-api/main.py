@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker, Session
 import html
 import re
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 
@@ -26,6 +27,21 @@ def get_db():
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8080",
+    "https://www.chat.recht.dev",
+    "https://chat.recht.dev",
+    "https://www.recht.dev",
+    "https://recht.dev"
+]
+
+app.add_middleware(CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = False,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 
 with open('.apikey', 'r') as f:
     lines = f.readlines()
