@@ -72,14 +72,12 @@
     </div>
   </v-card>
   </div>
-
-   <p>{{ treffer }}</p>
       
     </v-main>
 
     <v-footer
       app
-      color="transparent"
+      color="white"
       height="220"
       inset
     >
