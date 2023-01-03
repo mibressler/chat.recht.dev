@@ -21,7 +21,7 @@
       <!--  -->
 <div class="center mt-10" style="width:700px;">
       <v-card
-                v-for="(video, i) in vorlesungen"
+                v-for="(video, i) in treffer"
                 :key="i"
                 class="elevation-0 pt-1 pb-2"
                 max-height="200"
@@ -44,7 +44,7 @@
    
     <v-img
       v-else
-      :src="video.image"
+      src="https://www.tum-cdps.de/wp-content/uploads/lecturehall.jpg"
       class="white--text align-end"
       max-height="138px"
       max-width="245px"
@@ -53,12 +53,12 @@
     </v-img>
 
     <div>
-      <v-card-text style="font-size:1.2em; font-weight:400;" class="pt-2 pb-1">{{ video.title }}</v-card-text>
+      <v-card-text style="font-size:1.2em; font-weight:400;" class="pt-2 pb-1">{{ video.metadata.court.name }}</v-card-text>
     <v-card-subtitle class="pb-2 pt-0">
-      {{ video.subtitle }} {{ video.date }}
+      {{ video.score }} {{ video.metadata.date }}
     </v-card-subtitle>
     <v-card-text class="text--primary">
-      <div>{{ video.description }}</div><div class="mt-2">
+      <div>{{ video.summary }}</div><div class="mt-2">
 
 
         
@@ -73,7 +73,7 @@
   </v-card>
   </div>
 
-   
+   <p>{{ treffer }}</p>
       
     </v-main>
 
@@ -118,7 +118,7 @@
 import axios from 'axios'
 export default {
     data: () => ({
-      announcements: [],
+      treffer: [],
       message: [],
       password: 'Password',
       show: false,
@@ -185,15 +185,11 @@ export default {
       },
       makeRequest () {
         axios
-            .get('http://api.recht.dev/reference?prompt='+this.message)
+            .get('https://api.recht.dev/reference?prompt='+this.message)
             .then((response) => {
-                  this.announcements = response.data.data
+                  this.treffer = response.data.data
                 })
-        axios
-            .get('http://localhost:8082/api/inhalte?populate=*'+this.message)
-            .then((response) => {
-                  this.announcements = response.data.data
-                })
+
       },
       clearMessage () {
         this.message = ''
