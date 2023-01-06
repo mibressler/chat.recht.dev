@@ -36,7 +36,8 @@ origins = [
     "https://www.chat.recht.dev",
     "https://chat.recht.dev",
     "https://www.recht.dev",
-    "https://recht.dev"
+    "https://recht.dev",
+    "https://localhost:3000"
 ]
 
 app.add_middleware(CORSMiddleware,
