@@ -81,7 +81,7 @@ async def get_reference(prompt: str, engine: int = 0, db: Session = Depends(get_
         response_data.append({
             "id": elem['id'],
             "score": elem['score'],
-            "summary": text[:500],
+            "summary": " ".join(text[:500].split()[:-1]),
             "metadata": json.loads(ruling.additional_data)
         })
     return {
