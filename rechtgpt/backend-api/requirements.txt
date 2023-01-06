@@ -2,3 +2,4 @@ fastapi[all]
 openai
 pinecone-client
 sqlalchemy
+aleph-alpha-client
