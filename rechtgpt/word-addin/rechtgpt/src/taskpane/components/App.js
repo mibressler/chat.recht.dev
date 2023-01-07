@@ -22,25 +22,11 @@ export default function App({title, isOfficeInitialized}) {
   const { palette, semanticColors, fonts } = theme;
 
   const click = () => {
-      console.log(prompt);
       if (prompt != undefined) {
+        setShowRuling(false);
         trigger(prompt);
       }
   };
-
-  /*
-  const click = async () => {
-    return Word.run(async (context) => {
-      console.log(prompt);
-      if (prompt != undefined) {
-        await trigger(prompt);
-      }
-
-      context.document.getSelection().insertText("Hello!", Word.InsertLocation.after);
-      await context.sync();
-    });
-  };
-  */
 
   if (!isOfficeInitialized) {
     return (
@@ -111,11 +97,11 @@ export default function App({title, isOfficeInitialized}) {
       flexShrink: 0,
     },
     itemSummary: {
-      '-webkit-mask-image': "-webkit-gradient(linear, 100% 50%, 100% 100%, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))",
+      '-webkit-mask-image': "-webkit-gradient(linear, 100% 50%, 100% 98%, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))",
     }
   });
 
-  const onRenderCell = (item, index) => {
+  const onRenderCell = (item, _) => {
     console.log(item)
     return (
       <div className={classNames.itemCell} data-is-focusable={true} onClick={() => {
@@ -123,7 +109,7 @@ export default function App({title, isOfficeInitialized}) {
         setShowRuling(true);
       }}>
         <div className={classNames.itemContent}>
-          <div className={classNames.itemName}>{item.court_name} am {item.date}</div>
+          <div className={classNames.itemName}>{item.court_name} vom {item.date}</div>
           <div className={classNames.itemIndex}>Score {item.score}</div>
           <div className={classNames.itemSummary}>{item.summary}</div>
         </div>
@@ -137,12 +123,44 @@ export default function App({title, isOfficeInitialized}) {
     if(showRuling) {
       return (
         <Stack>
-          <Stack.Item align="start">
-            <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronLeft" }} onClick={() => {
-              setShowRuling(false);
-            }}>
-              Zurück
-            </DefaultButton>
+          <Stack.Item>
+            <Stack horizontal>
+              <Stack.Item grow={1}>
+                <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "ChevronLeft" }} onClick={() => {
+                    setShowRuling(false);
+                  }}>
+                  Zurück
+                </DefaultButton>
+              </Stack.Item>
+              <Stack.Item>
+                <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "TextDocument" }} onClick={() => {
+                    Word.run(async (context) => {
+                      let dateStr = "";
+                      let date = new Date(Date.parse(rulingData.metadata.date));
+                      if (date == NaN) {
+                        dateStr = rulingData.metadata.date;
+                      } else {
+                        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+                        dateStr = date.toLocaleDateString('de-DE', options);
+                      }
+                      let textToInsert = `(${rulingData.metadata.court.name}, ${rulingData.metadata.type} vom ${dateStr} — ${rulingData.metadata.file_number})`;
+                      let selection = context.document.getSelection();
+                      selection.load();
+                      await context.sync();
+                      if (selection.isEmpty) {
+                        // Add text after the cursor
+                        selection.insertText(textToInsert, Word.InsertLocation.after);
+                      } else {
+                        // Replace selected text
+                        selection.insertText(textToInsert, Word.InsertLocation.replace);
+                      }
+                      await context.sync();
+                    });
+                  }}>
+                  Zitat für dieses Urteil einfügen
+                </DefaultButton>
+              </Stack.Item>
+            </Stack>
           </Stack.Item>
           <Stack.Item>
           { rulingIsFetching ? <Spinner /> : <div dangerouslySetInnerHTML={{ "__html": rulingData.content}}></div> }
