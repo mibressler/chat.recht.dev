@@ -102,14 +102,13 @@ export default function App({title, isOfficeInitialized}) {
   });
 
   const onRenderCell = (item, _) => {
-    console.log(item)
     return (
       <div className={classNames.itemCell} data-is-focusable={true} onClick={() => {
         triggerGetRuling(item.name);
         setShowRuling(true);
       }}>
         <div className={classNames.itemContent}>
-          <div className={classNames.itemName}>{item.court_name} vom {item.date}</div>
+          <div className={classNames.itemName}>{item.court_name} vom {formatDate(item.date)}</div>
           <div className={classNames.itemIndex}>Score {item.score}</div>
           <div className={classNames.itemSummary}>{item.summary}</div>
         </div>
@@ -118,6 +117,17 @@ export default function App({title, isOfficeInitialized}) {
     );
   };
 
+  function formatDate(input) {
+    let dateStr = "";
+    let date = new Date(Date.parse(input));
+    if (date == NaN) {
+      dateStr = input;
+    } else {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      dateStr = date.toLocaleDateString('de-DE', options);
+    }
+    return dateStr;
+  }
 
   function renderList() {
     if(showRuling) {
@@ -135,15 +145,7 @@ export default function App({title, isOfficeInitialized}) {
               <Stack.Item hidden={rulingIsFetching} >
                 <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "TextDocument" }} onClick={() => {
                     Word.run(async (context) => {
-                      let dateStr = "";
-                      let date = new Date(Date.parse(rulingData.metadata.date));
-                      if (date == NaN) {
-                        dateStr = rulingData.metadata.date;
-                      } else {
-                        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-                        dateStr = date.toLocaleDateString('de-DE', options);
-                      }
-                      let textToInsert = `(${rulingData.metadata.court.name}, ${rulingData.metadata.type} vom ${dateStr} — ${rulingData.metadata.file_number})`;
+                      let textToInsert = `(${rulingData.metadata.court.name}, ${rulingData.metadata.type} vom ${formatDate(rulingData.metadata.date)} — ${rulingData.metadata.file_number})`;
                       let selection = context.document.getSelection();
                       selection.load();
                       await context.sync();
@@ -204,7 +206,7 @@ export default function App({title, isOfficeInitialized}) {
         </Stack>
       </Stack.Item>
       <Stack.Item>
-        <Image width={100} src={require("./../../../assets/logo-filled.png")} />
+        <Image width={100} src={require("./../../../assets/icon-128.png")} />
       </Stack.Item>
     </Stack>
   );
