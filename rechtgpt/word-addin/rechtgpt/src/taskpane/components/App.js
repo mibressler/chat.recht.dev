@@ -132,7 +132,7 @@ export default function App({title, isOfficeInitialized}) {
                   Zurück
                 </DefaultButton>
               </Stack.Item>
-              <Stack.Item>
+              <Stack.Item hidden={rulingIsFetching} >
                 <DefaultButton className="ms-welcome__action" iconProps={{ iconName: "TextDocument" }} onClick={() => {
                     Word.run(async (context) => {
                       let dateStr = "";
