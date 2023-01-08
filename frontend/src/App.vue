@@ -176,7 +176,6 @@ export default {
       select: ['Urteile suchen'],
         items: [
           'Urteile suchen',
-          'Fallbearbeitung für diesen Fall',
         ],
          vorlesungen: [
         {
